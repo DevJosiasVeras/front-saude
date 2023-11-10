@@ -1,8 +1,10 @@
+'use client';
 
 export default function Home() {
+
   return (
     <main className="
-    min-h-screen h-[150vh] mt-[100px] mb-9 mx-8 px-2 border-2 border-green-700/50
+    min-h-screen h-full mt-[100px] mb-48 md:mb-8 mx-8 px-2 border-2 border-green-700/50
     bg-white/20 pt-8 pb-8 rounded-xl
     shadow-[0_15px_30px_rgba(11,156,49,_0.5)]
     ">
