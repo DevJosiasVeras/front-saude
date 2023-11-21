@@ -1,68 +1,92 @@
+'use client';
+
+import { Medico, useContextApi } from "@/contexts/ContextApi";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
-export interface PlanosProps {
-  id: number;
-  nome: string;
-  imagem: string;
-  descricao: string;
-  valor: number;
-  status: boolean;
-}
 
-export default function Plano({ plano }: { plano: PlanosProps}) {
+export default function Plano() {
+  const {
+    medicosFiltrados,
+    medicosFiltradosBusca
+  } = useContextApi();
+
+  const [medicos, setMedicos] = useState<Medico[]>([]);
+
+  useEffect(() => {
+    if (medicosFiltradosBusca.length === 0) {
+      setMedicos(medicosFiltrados);
+    } else {
+      setMedicos(medicosFiltradosBusca);
+    }
+  }, [medicosFiltradosBusca]);
+
+  useEffect(() => {
+    setMedicos(medicosFiltrados);
+  }, [medicosFiltrados]);
+
+
   return (
-    <div 
-    key={plano.id}
-    className="
-    bg-white/50
-    rounded-xl
-    shadow-2xl
-    p-4
-    flex
-    flex-col
+    <div className="
+    w-full
+    h-full
+    flex flex-col
     items-center
     justify-center
     gap-4
-    min-w-[200px]
-    min-h-[300px]
-    md:w-full
-    md:h-full
-    md:mx-auto
-    hover:scale-90
-    md:cursor-pointer
+    p-4 
     ">
-        <Image 
-        width={100}
-        height={100}
-        src={plano.imagem}
-        alt={plano.nome}
-        priority 
-        className="
-        bg-cover
-        bg-center
-        bg-no-repeat
-        rounded-full 
-        border-2 border-green-700/50
-        shadow-2xl
-        "
-        />
-        <p className="
-        text-violet-900
-        font-bold
-        text-xl
-        ">{plano.nome}</p>
-        <p className="
-        text-violet-700
-        font-bold
-        text-lg
+      {medicos.map((medico) => (
+        <div className="
+        flex items-center
+        gap-4
+        bg-gray-100
+        rounded-xl
+        shadow-md
+        p-4
+        w-full
+        ">
+          <Image src={medico.imagem} width={100} height={100} alt="" className="
+          bg-cover
+          rounded-full
+          bg-white
+          shadow-2xl
+          "/>
+          <div className="flex flex-col items-start justify-center gap-2 flex-1">
+            <h1 className="text-2xl font-bold">{medico.nome}</h1>
+            <p className="text-lg">{medico.especialidade}</p>
+            <p className="text-lg">{medico.localAtendimento}</p>
+          </div>
 
-        ">{plano.descricao}</p>
-        <p className="
-        text-green-700
-        font-bold
-        text-lg
-        ">R$ {plano.valor}</p>
-        <p className="flex items-center justify-center gap-4 font-bold">SITUAÇÃO: <div className={` w-4 h-4 rounded-full ${plano.status ? 'bg-green-600' : 'bg-red-600' }`} /> </p>
-      </div>
+          <div className="
+          flex flex-col
+          items-center
+          justify-center
+          gap-2
+          mr-4
+          ">
+            <h1>{medico.endereco}</h1>
+            <h1>{medico.telefone}</h1>
+          </div>
+
+          <div>
+            <button className="
+            flex items-center justify-center
+            bg-green-700
+            text-white
+            font-bold
+            text-xl
+            rounded-xl
+            shadow-2xl
+            p-2
+            hover:bg-green-600
+            disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-gray-700
+            ">
+              Agendar
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
   )
 }

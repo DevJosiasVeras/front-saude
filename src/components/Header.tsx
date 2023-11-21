@@ -3,12 +3,24 @@
 import { useState } from "react";
 import User from "./User";
 import Link from "next/link";
+import { useContextApi } from "@/contexts/ContextApi";
 
 
 
 
 export default function Header() {
   const [userImage, setUserImage] = useState("");
+  const {medicosFiltrados, setMedicosFiltradosBusca} = useContextApi();
+
+  const buscaEspecialidade = (e: any) => {
+    const especialidade = e.target.value;
+    const medicosFiltradosBusca = medicosFiltrados.filter((medico) => {
+      if (medico.especialidade.toLowerCase().includes(especialidade.toLowerCase())) {
+        return medico;
+      }
+    });
+    setMedicosFiltradosBusca(medicosFiltradosBusca);
+  }
 
   return (
     <header className="p-2 bg-white/50 shadow-2xl rounded-b-xl fixed inset-0 h-16 w-full z-[100]">
@@ -24,7 +36,9 @@ export default function Header() {
         <div className="
         hidden
         md:flex-1 md:flex items-center justify-center">
-          <input type="text" placeholder="Bradesco" 
+          <input type="text" 
+          disabled={medicosFiltrados.length === 0 ? true : false}
+          placeholder="Urologia" 
           className="
           w-2/6
           p-2 
@@ -32,8 +46,10 @@ export default function Header() {
           bg-transparent 
           shadow-2xl
           border border-b-white border-r-white border-opacity-75
-          focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent 
+          focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent
+          disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-gray-700 
            "
+           onChange={(e) => {buscaEspecialidade(e)}}
           />
         </div>
         <div>

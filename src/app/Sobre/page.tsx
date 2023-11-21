@@ -1,7 +1,7 @@
 'use client';
 
 import axios from "axios";
-import Plano, { PlanosProps } from "@/components/Plano";
+import Planos, { PlanosProps } from "@/components/Planos";
 import { useState, useEffect } from "react";
 
 
@@ -35,7 +35,7 @@ export default function Sobre() {
        
         ">
           {planos.map((plano: PlanosProps) => (
-            <Plano key={plano.id} plano={plano} />
+            <Planos key={plano.id} plano={plano} />
           ))}
         </main>
 
