@@ -53,7 +53,9 @@ export default function Header() {
           />
         </div>
         <div>
-          <User name="User" image={userImage} />
+          <Link href="/edit-profile">
+            <User name="User" image={userImage} />
+          </Link>
         </div>
       </section>
     </header>
